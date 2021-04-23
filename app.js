@@ -1,11 +1,10 @@
 const express = require("express");
-const bodyParser = require("body-parser");
 const request = require("request");
 const https = require("https");
 
 const app = express();
 
-app.use(bodyParser.urlencoded({
+app.use(express.urlencoded({
   extended: true
 }));
 app.use(express.static("public"));
@@ -30,10 +29,10 @@ app.post("/", function(req, res) {
     }]
   };
   const jsonData = JSON.stringify(data);
-  const url = "https://us1.api.mailchimp.com/3.0/lists/99e4c1f171";
+  const url = process.env.URL;
   const options = {
     method: "POST",
-    auth: "Ameya:d5452c93f160417f7c639cfd3cf68c1f-us1"
+    auth: process.env.AUTH
   };
   const request = https.request(url, options, function(response) {
     if(response.statusCode === 200){
@@ -56,5 +55,4 @@ app.post("/faliure", function(req, res){
 app.listen(process.env.PORT || 3000, function() {
   console.log("Server is running on port 3000");
 });
-//d5452c93f160417f7c639cfd3cf68c1f-us1
-//99e4c1f171.
+
